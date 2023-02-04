@@ -40,5 +40,47 @@ namespace LinqTest2
                 action(item);
             }
         }
+
+        public static IEnumerable<T> MySkipWhile<T>(this IEnumerable<T> collection, Predicate<T> predicate)
+        {
+            bool skip = true;
+
+            foreach (T item in collection)
+            {
+                if(!predicate(item))
+                {
+                    skip = false;
+                }
+
+                if(skip)
+                {
+                    continue;
+                }
+
+                yield return item;
+            }
+        }
+
+        public static bool MyContains<T>(this IEnumerable<T> collection, T element)
+        {
+            foreach (T item in collection)
+            {
+                if (item.Equals(element))
+                    return true;
+            }
+
+            return false;
+        }
+
+        public static IEnumerable<T> MyExcept<T>(this IEnumerable<T> first, IEnumerable<T> second)
+        {
+            foreach (T item in first)
+            {
+                if(!second.Contains(item))
+                {
+                    yield return item;
+                }
+            }
+        }
     }
 }
